@@ -1,5 +1,7 @@
 package org.pluralsight.model;
 
+import org.hibernate.validator.constraints.Range;
+
 public class Exercise {
 
 	private int minutes;
