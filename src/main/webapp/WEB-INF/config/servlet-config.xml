@@ -27,11 +27,43 @@
 	<!-- This bean is for identifying the resource related properties file (in our case - messages.properties) -->
 	<bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource" p:basename="messages"></bean>
 
+	<bean class="org.springframework.web.servlet.view.ContentNegotiatingViewResolver">
+		<property name="order" value="1"></property>
+		<property name="contentNegotiationManager">
+			<bean class="org.springframework.web.accept.ContentNegotiationManager">
+				<constructor-arg>
+					<bean class="org.springframework.web.accept.PathExtensionContentNegotiationStrategy">
+						<constructor-arg>
+							<map>
+								<entry key="json" value="application/json"/>
+								<entry key="xml" value="application/xml"/>
+							</map>
+						</constructor-arg>
+					</bean>
+				</constructor-arg>
+			</bean>
+		</property>
+		<property name="defaultViews">
+			<list>
+				<bean class="org.springframework.web.servlet.view.json.MappingJacksonJsonView"/>
+				<bean class="org.springframework.web.servlet.view.xml.MarshallingView">
+					<constructor-arg>
+						<bean class="org.springframework.oxm.xstream.XStreamMarshaller">
+							<property name="autodetectAnnotations" value="true"></property>
+						</bean>
+					</constructor-arg>				
+				</bean>
+			</list>
+		</property>	 
+  	</bean>
+
 	<!-- This bean is for recognizing JSPs located in the project (new way by using the 'p' tag  -->
 	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver" 
 		  p:suffix=".jsp" 
-		  p:prefix="/WEB-INF/jsp/"></bean>
-		  
+		  p:prefix="/WEB-INF/jsp/" 
+		  p:order="2"></bean>
+	
+	<bean class="org.springframework.web.servlet.view.BeanNameViewResolver" p:order="0"/>	  
 	<!-- This bean is for recognizing JSPs located in the project (old style)-->	  
 	<!-- 
 	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
