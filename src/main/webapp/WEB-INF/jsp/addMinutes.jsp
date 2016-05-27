@@ -11,22 +11,38 @@
 <script type="text/javascript" src="jquery-2.2.4.js"></script>
 
 <script type="text/javascript">
-	$(document).ready(
-			function() {
-				$.getJSON('http://10.253.80.99:9080/FitnessTracker/activities.json'), {
-					ajax : 'true'
-				}, function(data) {
-					console.log(data);
-					var html = '<option value="">--Please select one--</option>';
-					var len = data.length;
-					for(var i = 0 ; i < len ; i++) {
-						html += '<option value="' + data[i].desc + '">' + data[i].desc + '</option>';
-						html += '</option>';
-						$('#activities').html(html);
-					}
-				}
-			});
 
+	var errorData = function(errorData) {
+		console.log('error is' + errorData);
+	}
+
+	var jsonData = function(data) {
+		//function(data) {
+			console.log('Success..Inside jsonData method');
+			var html = '<option value="">--Please select one--</option>';
+			var len = data.length;
+			for(var i = 0 ; i < len ; i++) {
+				html += '<option value="' + data[i].desc + '">' + data[i].desc + '</option>';
+				//html += '</option>';
+				$('#activities').html(html);
+			}
+		// }
+	}
+
+	$.ajax({
+		  url: '<spring:url value="activities.json"/>',
+		  dataType: 'json',
+		  success: jsonData,
+		  error: errorData
+		});
+	// Somehow $.getJSON didn't work, hence, went ahead with ajax call (above)
+	/* $(document).ready(
+			function() {
+				$.getJSON('<spring:url value="activities.json"/>'), {
+				//$.getJSON('http://10.253.80.99:9080/FitnessTracker/activities.json'), {
+					ajax : 'true'
+				}, jsonData 
+			}); */
 </script>
 
 </head>
