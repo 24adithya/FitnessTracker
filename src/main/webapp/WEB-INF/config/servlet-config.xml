@@ -22,7 +22,7 @@
 
 	<!-- These 2 tags are for recognizing annotation based controllers in the project -->
 	<mvc:annotation-driven/>
-	<context:component-scan base-package="org.pluralsight.controller"/>
+	<context:component-scan base-package="org.pluralsight"/>
 
 	<!-- This bean is for identifying the resource related properties file (in our case - messages.properties) -->
 	<bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource" p:basename="messages"></bean>
